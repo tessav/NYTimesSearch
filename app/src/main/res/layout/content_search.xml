@@ -33,8 +33,9 @@
         android:layout_alignParentRight="true"
         android:layout_marginEnd="13dp"
         android:layout_marginRight="13dp"
-        android:text="@string/search"
-        android:onClick="onArticleSearch"/>
+        android:backgroundTint="@android:color/white"
+        android:onClick="onArticleSearch"
+        android:text="@string/search" />
 
     <GridView
         android:id="@+id/gvResults"
@@ -46,6 +47,7 @@
         android:layout_alignStart="@+id/etQuery"
         android:layout_below="@+id/etQuery"
         android:layout_marginTop="24dp"
+        android:scrollbars="none"
         android:numColumns="2" />
 
 </RelativeLayout>
