@@ -42,6 +42,30 @@ public class FilterFragment extends DialogFragment {
         View view = inflater.inflate(R.layout.fragment_filter, container);
         Button btn =(Button) view.findViewById(R.id.btnSave);
         filterSharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+
+        DatePicker dpicker =(DatePicker) view.findViewById(R.id.dpBeginDate);
+        int beginYear = filterSharedPreferences.getInt("beginYear", 2017);
+        int beginMonth = filterSharedPreferences.getInt("beginMonth", 01)-1;
+        int beginDay = filterSharedPreferences.getInt("beginDay", 01);
+        dpicker.updateDate(beginYear, beginMonth, beginDay);
+
+        CheckBox cbArts = (CheckBox) view.findViewById(R.id.cbArts);
+        Boolean isArts = filterSharedPreferences.getBoolean("cbArts", false);
+        cbArts.setChecked(isArts);
+
+        CheckBox cbFashion = (CheckBox) view.findViewById(R.id.cbFashion);
+        Boolean isFashion = filterSharedPreferences.getBoolean("cbFashion", false);
+        cbFashion.setChecked(isFashion);
+
+        CheckBox cbSports = (CheckBox) view.findViewById(R.id.cbSports);
+        Boolean isSports = filterSharedPreferences.getBoolean("cbSports", false);
+        cbSports.setChecked(isSports);
+
+        Spinner sSortOrder = (Spinner) view.findViewById(R.id.sSortOrder);
+        String sortOrder = filterSharedPreferences.getString("sortOrder", "newest");
+        int selectedPos = sortOrder.equals("newest") ? 0 : 1;
+        sSortOrder.setSelection(selectedPos);
+
         editor = filterSharedPreferences.edit();
 
         btn.setOnClickListener(new View.OnClickListener() {
