@@ -53,13 +53,14 @@ public class FilterFragment extends DialogFragment {
                 CheckBox cbSports = (CheckBox) getView().findViewById(R.id.cbSports);
                 CheckBox cbArts = (CheckBox) getView().findViewById(R.id.cbArts);
                 CheckBox cbFashion = (CheckBox) getView().findViewById(R.id.cbFashion);
-                String order = orderSpinner.getSelectedItem().toString();
+                String sortOrder = orderSpinner.getSelectedItem().toString();
                 int beginDay = beginDate.getDayOfMonth();
                 int beginMonth = beginDate.getMonth()+1;
                 int beginYear = beginDate.getYear();
                 editor.putInt("beginYear", beginYear);
                 editor.putInt("beginMonth", beginMonth);
                 editor.putInt("beginDay", beginDay);
+                editor.putString("sortOrder", sortOrder);
                 editor.putBoolean("cbSports", cbSports.isChecked());
                 editor.putBoolean("cbArts", cbArts.isChecked());
                 editor.putBoolean("cbFashion", cbFashion.isChecked());

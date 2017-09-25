@@ -17,9 +17,8 @@ import com.example.tessav.nytimessearch.R;
 import com.example.tessav.nytimessearch.adapters.ArticleArrayAdapter;
 import com.example.tessav.nytimessearch.fragments.FilterFragment;
 import com.example.tessav.nytimessearch.models.Article;
-import com.loopj.android.http.AsyncHttpClient;
+import com.example.tessav.nytimessearch.network.NYTClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
-import com.loopj.android.http.RequestParams;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -88,13 +87,8 @@ public class SearchActivity extends AppCompatActivity {
     public void onArticleSearch(View view) {
         System.out.println("searching articles...");
         String query = etQuery.getText().toString();
-        AsyncHttpClient client = new AsyncHttpClient();
-        String url = "https://api.nytimes.com/svc/search/v2/articlesearch.json";
-        RequestParams params = new RequestParams();
-        params.put("api-key", "87c12628554a4caca74a408561b5b835");
-        params.put("page", 0);
-        params.put("q", query);
-        client.get(url, params, new JsonHttpResponseHandler() {
+        NYTClient client = new NYTClient();
+        client.search(this, query, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 JSONArray articleJsonResults = null;
