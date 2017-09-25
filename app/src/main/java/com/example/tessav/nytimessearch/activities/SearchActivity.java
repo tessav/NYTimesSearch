@@ -18,6 +18,7 @@ import com.example.tessav.nytimessearch.adapters.ArticleArrayAdapter;
 import com.example.tessav.nytimessearch.fragments.FilterFragment;
 import com.example.tessav.nytimessearch.models.Article;
 import com.example.tessav.nytimessearch.network.NYTClient;
+import com.example.tessav.nytimessearch.utils.EndlessScrollListener;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.json.JSONArray;
@@ -38,6 +39,8 @@ public class SearchActivity extends AppCompatActivity {
 
     ArrayList<Article> articles;
     ArticleArrayAdapter adapter;
+    NYTClient client;
+    String query;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +48,7 @@ public class SearchActivity extends AppCompatActivity {
         setContentView(R.layout.activity_search);
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
+        client = new NYTClient();
         articles = new ArrayList<>();
         adapter = new ArticleArrayAdapter(this, articles);
         gvResults.setAdapter(adapter);
@@ -57,6 +61,36 @@ public class SearchActivity extends AppCompatActivity {
                 Article article = articles.get(i);
                 intent.putExtra("article", article);
                 startActivity(intent);
+            }
+        });
+
+        gvResults.setOnScrollListener(new EndlessScrollListener() {
+            @Override
+            public boolean onLoadMore(int page, int totalItemsCount) {
+                // Triggered only when new data needs to be appended to the list
+                // Add whatever code is needed to append new items to your AdapterView
+                loadNextDataFromApi(page);
+                // or loadNextDataFromApi(totalItemsCount);
+                return true; // ONLY if more data is actually being loaded; false otherwise.
+            }
+        });
+    }
+
+    public void loadNextDataFromApi(int offset) {
+        client.search(this, query, offset, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                try {
+                    JSONArray articleJsonResults = response.getJSONObject("response").getJSONArray("docs");
+                    adapter.addAll(Article.fromJSONArray(articleJsonResults));
+                } catch(JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+
             }
         });
     }
@@ -85,17 +119,15 @@ public class SearchActivity extends AppCompatActivity {
     }
 
     public void onArticleSearch(View view) {
-        System.out.println("searching articles...");
-        String query = etQuery.getText().toString();
-        NYTClient client = new NYTClient();
-        client.search(this, query, new JsonHttpResponseHandler() {
+        query = etQuery.getText().toString();
+        client = new NYTClient();
+        client.search(this, query, 0, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 JSONArray articleJsonResults = null;
                 try {
                     adapter.clear();
                     articleJsonResults = response.getJSONObject("response").getJSONArray("docs");
-                    System.out.println("got results");
                     adapter.addAll(Article.fromJSONArray(articleJsonResults));
                 } catch(JSONException e) {
                     e.printStackTrace();

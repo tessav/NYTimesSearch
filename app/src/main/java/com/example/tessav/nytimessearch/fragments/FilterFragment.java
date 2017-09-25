@@ -50,15 +50,15 @@ public class FilterFragment extends DialogFragment {
         dpicker.updateDate(beginYear, beginMonth, beginDay);
 
         CheckBox cbArts = (CheckBox) view.findViewById(R.id.cbArts);
-        Boolean isArts = filterSharedPreferences.getBoolean("cbArts", false);
+        boolean isArts = filterSharedPreferences.getBoolean("cbArts", false);
         cbArts.setChecked(isArts);
 
         CheckBox cbFashion = (CheckBox) view.findViewById(R.id.cbFashion);
-        Boolean isFashion = filterSharedPreferences.getBoolean("cbFashion", false);
+        boolean isFashion = filterSharedPreferences.getBoolean("cbFashion", false);
         cbFashion.setChecked(isFashion);
 
         CheckBox cbSports = (CheckBox) view.findViewById(R.id.cbSports);
-        Boolean isSports = filterSharedPreferences.getBoolean("cbSports", false);
+        boolean isSports = filterSharedPreferences.getBoolean("cbSports", false);
         cbSports.setChecked(isSports);
 
         Spinner sSortOrder = (Spinner) view.findViewById(R.id.sSortOrder);
