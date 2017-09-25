@@ -2,6 +2,7 @@ package com.example.tessav.nytimessearch.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -14,6 +15,7 @@ import android.widget.GridView;
 
 import com.example.tessav.nytimessearch.R;
 import com.example.tessav.nytimessearch.adapters.ArticleArrayAdapter;
+import com.example.tessav.nytimessearch.fragments.FilterFragment;
 import com.example.tessav.nytimessearch.models.Article;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -75,7 +77,8 @@ public class SearchActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_filter) {
+            showFilterDialog();
             return true;
         }
 
@@ -96,6 +99,7 @@ public class SearchActivity extends AppCompatActivity {
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 JSONArray articleJsonResults = null;
                 try {
+                    adapter.clear();
                     articleJsonResults = response.getJSONObject("response").getJSONArray("docs");
                     System.out.println("got results");
                     adapter.addAll(Article.fromJSONArray(articleJsonResults));
@@ -110,4 +114,11 @@ public class SearchActivity extends AppCompatActivity {
             }
         });
     }
+
+    private void showFilterDialog() {
+        FragmentManager fm = getSupportFragmentManager();
+        FilterFragment filterFragment = FilterFragment.newInstance("Some Title");
+        filterFragment.show(fm, "fragment_filter");
+    }
+
 }

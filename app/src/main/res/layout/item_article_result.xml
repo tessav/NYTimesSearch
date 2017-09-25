@@ -19,5 +19,6 @@
         android:ellipsize="end"
         android:maxLines="2"
         android:padding="10dp"
-        android:text="Title" />
+        android:text="Title"
+        android:textAppearance="@android:style/TextAppearance.Widget.TextView" />
 </LinearLayout>
