@@ -40,13 +40,13 @@ public class NYTClient {
         String sbDay = (beginDay < 10) ? "0" + String.valueOf(beginDay) : String.valueOf(beginDay);
         String newsDesk = "";
         if (cbArts) {
-            newsDesk += "\"Arts\" ";
+            newsDesk += "\"Arts\"%20";
         }
         if (cbFashion) {
-            newsDesk += "\"Fashion & Style\" ";
+            newsDesk += "\"Fashion\"%20";
         }
         if (cbSports) {
-            newsDesk += "\"Sports\" ";
+            newsDesk += "\"Sports\"%20";
         }
         RequestParams params = new RequestParams();
         params.put("api-key",API_KEY);
@@ -54,7 +54,7 @@ public class NYTClient {
         params.put("q", query);
         params.put("begin_date", sbYear + sbMonth + sbDay);
         if (!newsDesk.isEmpty()) {
-            newsDesk = "news_desk:(" + newsDesk.trim() + ")";
+            newsDesk = "news_desk:(" + newsDesk.substring(0, newsDesk.length() - 3) + ")";
             params.put("fq", newsDesk);
         }
         params.put("sort", sortOrder);
