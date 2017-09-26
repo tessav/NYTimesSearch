@@ -16,6 +16,7 @@ public class ArticleActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_article);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle("NYTimes");
         setSupportActionBar(toolbar);
 
         Article article = (Article) getIntent().getSerializableExtra("article");

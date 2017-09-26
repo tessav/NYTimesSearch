@@ -48,15 +48,15 @@ public class NYTClient {
         if (cbSports) {
             newsDesk += "\"Sports\" ";
         }
-        if (!newsDesk.isEmpty()) {
-            newsDesk = "news_desk:(" + newsDesk.trim() + ")";
-        }
         RequestParams params = new RequestParams();
         params.put("api-key",API_KEY);
         params.put("page", page);
-        params.put("query", query);
+        params.put("q", query);
         params.put("begin_date", sbYear + sbMonth + sbDay);
-        params.put("fq", newsDesk);
+        if (!newsDesk.isEmpty()) {
+            newsDesk = "news_desk:(" + newsDesk.trim() + ")";
+            params.put("fq", newsDesk);
+        }
         params.put("sort", sortOrder);
         return params;
     }
